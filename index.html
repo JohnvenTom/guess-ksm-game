@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -1039,6 +1039,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            z-index: 1;
         }
 
         /* 响应式难度选择器 */
@@ -1088,6 +1090,103 @@
             background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
             border-color: transparent;
             box-shadow: 0 5px 20px rgba(253, 121, 168, 0.5);
+        }
+
+        .mode-toggle-animation {
+            animation: modeToggle 0.8s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-toggle-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--random-glow, linear-gradient(90deg, transparent 0%, rgba(253, 121, 168, 0.5) 50%, transparent 100%));
+            animation: gradientFill 0.5s ease-in-out;
+            z-index: 0;
+        }
+
+        .mode-toggle-animation::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(253, 121, 168, 0.3) 0%, 
+                rgba(102, 126, 234, 0.3) 50%, 
+                rgba(52, 172, 224, 0.3) 100%);
+            animation: colorFill 0.5s ease-in-out;
+            z-index: 0;
+        }
+
+        @keyframes colorFill {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .difficulty-btn.active {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .difficulty-btn.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--random-glow, linear-gradient(90deg, transparent 0%, rgba(253, 121, 168, 0.5) 50%, transparent 100%));
+            animation: gradientFill 0.8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .difficulty-btn.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(253, 121, 168, 0.1) 0%, 
+                rgba(102, 126, 234, 0.1) 50%, 
+                rgba(52, 172, 224, 0.1) 100%);
+            z-index: 0;
+        }
+
+        @keyframes modeToggle {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes gradientFill {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
         }
 
         .custom-shuffle-input {
@@ -1496,6 +1595,325 @@
             font-size: 0.8rem;
             color: #f87171;
             margin-top: 15px;
+        }
+
+        .shop-panel {
+            position: fixed;
+            top: 20px;
+            right: 90px;
+            z-index: 50;
+        }
+
+        .shop-toggle-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shop-toggle-btn:hover, .shop-toggle-btn:active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .shop-btn-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .shop-toggle-btn.expanded {
+            transform: rotate(45deg);
+        }
+
+        .shop-toggle-btn.expanded .shop-btn-icon {
+            transform: rotate(-45deg);
+        }
+
+        .shop-container {
+            position: absolute;
+            top: 70px;
+            right: 0;
+            background: rgba(30, 30, 50, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: top right;
+            max-width: 500px;
+            min-width: 300px;
+        }
+
+        /* 竖屏适配 */
+        @media (max-aspect-ratio: 1/1) {
+            .shop-panel {
+                bottom: 80px;
+                left: 10px;
+                right: auto;
+                top: auto;
+                z-index: 50;
+            }
+            
+            .shop-toggle-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.6rem;
+            }
+            
+            .shop-container {
+                width: 98vw;
+                min-width: 300px;
+                left: -10px;
+                right: 10px;
+                bottom: 135px;
+                top: auto;
+                transform-origin: bottom left;
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+            
+            .shop-container::-webkit-scrollbar {
+                width: 4px;
+            }
+            
+            .shop-container::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 2px;
+            }
+            
+            .shop-container::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 2px;
+            }
+            
+            .shop-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+                gap: 10px;
+            }
+            
+            .shop-item {
+                width: 100%;
+                height: 140px;
+                padding: 15px;
+            }
+            
+            .shop-item img {
+                height: 70%;
+                width: 100%;
+                object-fit: contain;
+            }
+            
+            .shop-item-price {
+                font-size: 0.65rem;
+            }
+            
+            .shop-buy-btn {
+                font-size: 0.6rem;
+                padding: 3px 6px;
+            }
+        }
+
+        /* 小屏幕竖屏适配 */
+        @media (max-width: 480px) {
+            .shop-container {
+                max-width: 95vw;
+                left: 2.5vw;
+                right: 2.5vw;
+                padding: 15px;
+                max-height: 75vh;
+            }
+            
+            .shop-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+                gap: 8px;
+            }
+            
+            .shop-item {
+                height: 120px;
+                padding: 12px;
+            }
+            
+            .shop-item img {
+                height: 65%;
+                width: 100%;
+                object-fit: contain;
+            }
+            
+            .shop-item-price {
+                font-size: 0.6rem;
+                margin: 3px 0;
+            }
+            
+            .shop-buy-btn {
+                font-size: 0.55rem;
+                padding: 2px 4px;
+            }
+        }
+
+        /* 超小屏幕竖屏适配 */
+        @media (max-width: 320px) {
+            .shop-grid {
+                grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+                gap: 6px;
+            }
+            
+            .shop-item {
+                height: 100px;
+                padding: 10px;
+            }
+            
+            .shop-item img {
+                height: 60%;
+                width: 100%;
+                object-fit: contain;
+            }
+            
+            .shop-item-price {
+                font-size: 0.55rem;
+            }
+            
+            .shop-buy-btn {
+                font-size: 0.5rem;
+            }
+        }
+
+        .shop-container.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .shop-title {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .shop-item {
+            position: relative;
+            width: 100px;
+            height: 140px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+        }
+
+        .shop-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .shop-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+            transition: left 0.6s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .shop-item:hover::before {
+            left: 100%;
+        }
+
+        .shop-item.owned {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .shop-item img {
+            width: 100%;
+            height: 60%;
+            object-fit: contain;
+        }
+
+        .shop-item-price {
+            font-size: 0.7rem;
+            color: #ffd700;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .shop-buy-btn {
+            width: 100%;
+            padding: 4px 8px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .shop-buy-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .shop-buy-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+        }
+
+        .purchased-items {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .purchased-item {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            pointer-events: all;
+            cursor: move;
+            z-index: 10;
+        }
+
+        .purchased-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+            border-radius: 10px;
         }
 
         .stamp-panel {
@@ -2840,6 +3258,33 @@
             </div>
         </div>
 
+        <div class="shop-panel">
+            <button class="shop-toggle-btn" :class="{ expanded: showShopPanel }" @click="toggleShopPanel">
+                <span class="shop-btn-icon">🛍️</span>
+            </button>
+            <div class="shop-container" :class="{ show: showShopPanel }">
+                <div class="shop-title">商店</div>
+                <div class="shop-grid">
+                    <div 
+                        v-for="(item, index) in shopItems" 
+                        :key="index"
+                        class="shop-item"
+                        :class="{ owned: ownedItems.includes(item) }"
+                    >
+                        <img :src="item" alt="shop item">
+                        <div class="shop-item-price">100 💎</div>
+                        <button 
+                            class="shop-buy-btn" 
+                            @click="buyItem(item)"
+                            :disabled="ownedItems.includes(item) || starStones < 100"
+                        >
+                            {{ ownedItems.includes(item) ? '已拥有' : '购买' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="stamp-panel">
             <button class="stamp-toggle-btn" :class="{ expanded: showStampPanel }" @click="toggleStampPanel">
                 <img :src="randomStampIcon" class="stamp-btn-icon" alt="stamp">
@@ -2856,6 +3301,24 @@
                         <img :src="stamp" alt="stamp">
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- 已购买物品容器 -->
+        <div class="purchased-items">
+            <div 
+                v-for="(item, index) in placedItems" 
+                :key="index"
+                class="purchased-item"
+                :style="{
+                    left: item.x + 'px',
+                    top: item.y + 'px',
+                    transform: `scale(${item.scale}) rotate(${item.rotation}deg)`
+                }"
+                @mousedown="startDrag(index, $event)"
+                @touchstart="startDrag(index, $event, true)"
+            >
+                <img :src="item.src" alt="purchased item">
             </div>
         </div>
 
@@ -2953,6 +3416,14 @@
                     <span v-else class="error-text">{{ customShuffleError }}</span>
                 </div>
             </template>
+            <button 
+                class="difficulty-btn" 
+                :class="{ active: isPatternChangeMode, 'mode-toggle-animation': isModeToggling }"
+                @click="togglePatternChangeMode"
+                @mouseenter="playHoverSound"
+            >
+                {{ isPatternChangeMode ? '图案变化(×2)' : '图案不变(×1)' }}
+            </button>
         </div>
 
         <div class="controls">
@@ -3004,7 +3475,7 @@
                     <button class="bet-quick-btn" @click="betAmount = starStones">全押</button>
                 </div>
                 <div class="bet-info">
-                    预计收益: <strong>{{ betAmount * getShuffleCount() }}</strong> 星石 (投入 × {{ getShuffleCount() }}次洗牌)
+                    预计收益: <strong>{{ betAmount * getShuffleCount() * (isPatternChangeMode ? 2 : 1) }}</strong> 星石 (投入 × {{ getShuffleCount() }}次洗牌 × {{ isPatternChangeMode ? 2 : 1 }}倍模式)
                 </div>
                 <div class="dialog-buttons">
                     <button class="btn btn-cancel" @click="showBetDialog = false">取消</button>
@@ -3169,11 +3640,48 @@
                 ];
 
                 const showStampPanel = ref(false);
+                const showShopPanel = ref(false);
                 const showInstructions = ref(true);
                 const showContact = ref(false);
                 const isMobile = ref(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
                 const randomStampIcon = ref(stamps[Math.floor(Math.random() * stamps.length)]);
+
+                // 商店物品列表
+                const shopItems = ref([
+                    'assets/shop/degree100.png',
+                    'assets/shop/degree101.png',
+                    'assets/shop/degree102.png',
+                    'assets/shop/degree103.png',
+                    'assets/shop/degree104.png',
+                    'assets/shop/degree105.png',
+                    'assets/shop/degree106.png',
+                    'assets/shop/degree110.png',
+                    'assets/shop/degree111.png',
+                    'assets/shop/degree112.png',
+                    'assets/shop/degree122.png',
+                    'assets/shop/degree129.png',
+                    'assets/shop/degree130.png',
+                    'assets/shop/degree131.png',
+                    'assets/shop/degree132.png'
+                ]);
+
+                // 已拥有物品列表
+                const ownedItems = ref([]);
+                // 已放置物品列表
+                const placedItems = ref([]);
+                // 拖动状态
+                const dragState = ref({
+                    active: false,
+                    index: -1,
+                    offsetX: 0,
+                    offsetY: 0,
+                    targetX: 0,
+                    targetY: 0
+                });
+                
+                // 动画帧ID
+                let dragAnimationId = null;
 
                 /**
                  * 获取三个不重复的随机杯子图片
@@ -3206,9 +3714,10 @@
                  * @returns {void}
                  */
                 const initCupImages = () => {
-                    const images = getThreeRandomCupImages();
-                    cups.value.forEach((cup, index) => {
-                        cup.image = images[index];
+                    // 选择一个随机图片，让三个杯子使用相同的图案
+                    const singleImage = cupImages[Math.floor(Math.random() * cupImages.length)];
+                    cups.value.forEach((cup) => {
+                        cup.image = singleImage;
                     });
                 };
 
@@ -3236,6 +3745,8 @@
                 const statusHighlight = ref(false);
                 const ballPosition = ref(0);
                 const canSelect = ref(false);
+                const isPatternChangeMode = ref(false); // false: 图案不变(收益×1), true: 图案变化(收益×2)
+                const isModeToggling = ref(false); // 用于触发模式切换动画
 
                 const showMessage = ref(false);
                 const messageText = ref('');
@@ -3861,6 +4372,75 @@
                 };
 
                 /**
+                 * 生成随机颜色
+                 * @returns {string} 随机颜色的RGBA值
+                 */
+                const getRandomColor = () => {
+                    const colors = [
+                        'rgba(253, 121, 168, 0.5)', // 粉色
+                        'rgba(102, 126, 234, 0.5)', // 紫色
+                        'rgba(52, 172, 224, 0.5)', // 蓝色
+                        'rgba(76, 175, 80, 0.5)',  // 绿色
+                        'rgba(255, 193, 7, 0.5)',  // 黄色
+                        'rgba(244, 67, 54, 0.5)'   // 红色
+                    ];
+                    return colors[Math.floor(Math.random() * colors.length)];
+                };
+
+                /**
+                 * 生成随机渐变
+                 * @returns {string} 随机渐变的CSS值
+                 */
+                const getRandomGradient = () => {
+                    const color1 = getRandomColor();
+                    const color2 = getRandomColor();
+                    return `linear-gradient(90deg, transparent 0%, ${color1} 50%, ${color2} 75%, transparent 100%)`;
+                };
+
+                /**
+                 * 为激活状态的按钮添加随机扫光效果
+                 * @returns {void}
+                 */
+                const addRandomGlowToActiveButtons = () => {
+                    setTimeout(() => {
+                        const activeButtons = document.querySelectorAll('.difficulty-btn.active');
+                        activeButtons.forEach(button => {
+                            button.style.setProperty('--random-glow', getRandomGradient());
+                        });
+                    }, 100);
+                };
+
+                /**
+                 * 切换图案变化模式
+                 * @returns {void}
+                 */
+                const togglePatternChangeMode = () => {
+                    // 触发切换动画
+                    isModeToggling.value = true;
+                    playClickSound();
+                    
+                    // 为模式切换按钮添加随机扫光效果
+                    const modeButton = document.querySelector('.difficulty-btn:nth-last-child(1)');
+                    if (modeButton) {
+                        modeButton.style.setProperty('--random-glow', getRandomGradient());
+                    }
+                    
+                    // 延迟切换模式，让动画有时间播放
+                    setTimeout(() => {
+                        isPatternChangeMode.value = !isPatternChangeMode.value;
+                        gameStatus.value = `模式已切换为: ${isPatternChangeMode.value ? '图案变化(收益×2)' : '图案不变(收益×1)'}`;
+                        
+                        // 为激活状态的按钮添加随机扫光效果
+                        addRandomGlowToActiveButtons();
+                        
+                        // 动画结束后重置状态
+                        setTimeout(() => {
+                            isModeToggling.value = false;
+                        }, 500);
+                    }, 250);
+                };
+
+                /**
                  * 切换背景音乐开关
                  * @returns {void}
                  */
@@ -3902,6 +4482,131 @@
                  */
                 const toggleStampPanel = () => {
                     showStampPanel.value = !showStampPanel.value;
+                };
+
+                /**
+                 * 切换商店面板显示状态
+                 * @returns {void}
+                 */
+                const toggleShopPanel = () => {
+                    showShopPanel.value = !showShopPanel.value;
+                };
+
+                /**
+                 * 购买物品
+                 * @param {string} item - 物品路径
+                 * @returns {void}
+                 */
+                const buyItem = (item) => {
+                    if (ownedItems.value.includes(item) || starStones.value < 100) return;
+                    
+                    starStones.value -= 100;
+                    ownedItems.value.push(item);
+                    
+                    // 购买后自动放置物品
+                    const newItem = {
+                        src: item,
+                        x: window.innerWidth / 2 - 75,
+                        y: window.innerHeight / 2 - 75,
+                        scale: 1.5,
+                        rotation: 0
+                    };
+                    placedItems.value.push(newItem);
+                    
+                    playClickSound();
+                    gameStatus.value = '购买成功！物品已放置到屏幕中央';
+                };
+
+                /**
+                 * 开始拖动
+                 * @param {number} index - 物品索引
+                 * @param {Event} event - 鼠标或触摸事件
+                 * @param {boolean} isTouch - 是否为触摸事件
+                 * @returns {void}
+                 */
+                const startDrag = (index, event, isTouch = false) => {
+                    event.preventDefault();
+                    
+                    const clientX = isTouch ? event.touches[0].clientX : event.clientX;
+                    const clientY = isTouch ? event.touches[0].clientY : event.clientY;
+                    
+                    dragState.value = {
+                        active: true,
+                        index: index,
+                        offsetX: clientX - placedItems.value[index].x,
+                        offsetY: clientY - placedItems.value[index].y,
+                        targetX: placedItems.value[index].x,
+                        targetY: placedItems.value[index].y
+                    };
+                    
+                    // 添加移动和结束事件监听
+                    if (isTouch) {
+                        document.addEventListener('touchmove', onDrag, { passive: false });
+                        document.addEventListener('touchend', endDrag);
+                    } else {
+                        document.addEventListener('mousemove', onDrag, { passive: false });
+                        document.addEventListener('mouseup', endDrag);
+                    }
+                    
+                    // 开始动画循环
+                    if (!dragAnimationId) {
+                        dragAnimationId = requestAnimationFrame(dragAnimation);
+                    }
+                };
+
+                /**
+                 * 拖动动画
+                 * @returns {void}
+                 */
+                const dragAnimation = () => {
+                    if (dragState.value.active) {
+                        // 使用缓动效果使拖动更平滑
+                        const currentItem = placedItems.value[dragState.value.index];
+                        if (currentItem) {
+                            currentItem.x += (dragState.value.targetX - currentItem.x) * 0.2;
+                            currentItem.y += (dragState.value.targetY - currentItem.y) * 0.2;
+                        }
+                        dragAnimationId = requestAnimationFrame(dragAnimation);
+                    }
+                };
+
+                /**
+                 * 拖动中
+                 * @param {Event} event - 鼠标或触摸事件
+                 * @returns {void}
+                 */
+                const onDrag = (event) => {
+                    if (!dragState.value.active) return;
+                    
+                    event.preventDefault();
+                    
+                    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+                    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+                    
+                    // 更新目标位置
+                    dragState.value.targetX = clientX - dragState.value.offsetX;
+                    dragState.value.targetY = clientY - dragState.value.offsetY;
+                };
+
+                /**
+                 * 结束拖动
+                 * @returns {void}
+                 */
+                const endDrag = () => {
+                    dragState.value.active = false;
+                    dragState.value.index = -1;
+                    
+                    // 取消动画帧
+                    if (dragAnimationId) {
+                        cancelAnimationFrame(dragAnimationId);
+                        dragAnimationId = null;
+                    }
+                    
+                    // 移除事件监听
+                    document.removeEventListener('mousemove', onDrag);
+                    document.removeEventListener('mouseup', endDrag);
+                    document.removeEventListener('touchmove', onDrag);
+                    document.removeEventListener('touchend', endDrag);
                 };
 
                 /**
@@ -4296,6 +5001,9 @@
                     } else {
                         gameStatus.value = `难度已设置为: ${diff.name} (${diff.shuffleCount}次)`;
                     }
+                    
+                    // 为激活状态的按钮添加随机扫光效果
+                    addRandomGlowToActiveButtons();
                 };
 
                 /**
@@ -4349,7 +5057,9 @@
                  * @returns {void}
                  */
                 const resetCupStates = () => {
-                    const images = getThreeRandomCupImages();
+                    // 保存当前的杯子图案，用于图案不变模式
+                    const currentImage = cups.value[0].image;
+                    
                     cups.value.forEach((cup, index) => {
                         cup.hasBall = false;
                         cup.lifting = false;
@@ -4359,7 +5069,17 @@
                         cup.wrong = false;
                         cup.offsetX = 0;
                         cup.lift = 0;
-                        cup.image = images[index];
+                        
+                        // 在图案不变模式下，保持原来的图案
+                        if (isPatternChangeMode.value) {
+                            // 图案变化模式：重新生成随机图案
+                            const images = getThreeRandomCupImages();
+                            cup.image = images[index];
+                        } else {
+                            // 图案不变模式：保持原来的图案
+                            cup.image = currentImage;
+                        }
+                        
                         cup.rotateX = 0;
                         cup.rotateY = 0;
                     });
@@ -4396,8 +5116,20 @@
                             pos2 = Math.floor(Math.random() * cups.value.length);
                         }
                         
-                        await swapCups(pos1, pos2);
-                        await delay(100);
+                        // 计算当前速度因子，随着交换次数增加而增大，使用平方根函数使增长更平缓
+                        // 初始速度因子1，最大速度因子1.8
+                        const initialSpeed = 1;
+                        const maxSpeed = 1.8;
+                        const speedFactor = initialSpeed + (maxSpeed - initialSpeed) * Math.sqrt(i / shuffleCount);
+                        
+                        // 计算当前延迟时间，随着交换次数增加而减少
+                        // 初始延迟100ms，最小延迟30ms
+                        const initialDelay = 100;
+                        const minDelay = 30;
+                        const delayTime = Math.max(minDelay, initialDelay - (initialDelay - minDelay) * (i / shuffleCount));
+                        
+                        await swapCups(pos1, pos2, speedFactor);
+                        await delay(delayTime);
                     }
                 };
 
@@ -4405,9 +5137,10 @@
                  * 交换两个杯子的位置
                  * @param {number} pos1 - 第一个杯子索引
                  * @param {number} pos2 - 第二个杯子索引
+                 * @param {number} speedFactor - 速度因子，值越大速度越快
                  * @returns {Promise<void>}
                  */
-                const swapCups = async (pos1, pos2) => {
+                const swapCups = async (pos1, pos2, speedFactor = 1) => {
                     playShuffleSound();
                     
                     const cup1 = cups.value[pos1];
@@ -4419,16 +5152,47 @@
                     // 动态计算交换距离，避免在竖屏模式下超出屏幕
                     // 根据杯子宽度和间距计算合适的距离
                     const isMobile = window.innerWidth <= 768;
-                    const distance = (pos2 - pos1) * (isMobile ? 150 : 200);
+                    const distance = (pos2 - pos1) * (isMobile ? 120 : 160);
                     
+                    // 根据速度因子计算延迟时间
+                    const baseDelay = 1000 / speedFactor;
+                    const liftDelay = Math.max(50, baseDelay * 0.15);
+                    const swapDelay = Math.max(100, baseDelay * 0.3);
+                    const prepareDelay = Math.max(50, baseDelay * 0.1);
+                    const dropDelay = Math.max(50, baseDelay * 0.1);
+                    const finalDelay = Math.max(50, baseDelay * 0.1);
+                    
+                    // 第一步：抬起杯子，同时添加旋转效果，模拟真实拿起动作
+                    cup1.lift = 40;
+                    cup2.lift = 40;
+                    cup1.rotateX = 15; // 向上倾斜
+                    cup2.rotateX = 15; // 向上倾斜
+                    
+                    await delay(liftDelay);
+                    
+                    // 第二步：水平交换位置，保持高度
                     cup1.offsetX = distance;
                     cup2.offsetX = -distance;
                     
-                    await delay(700);
+                    await delay(swapDelay);
                     
+                    // 第三步：准备放下杯子
+                    cup1.rotateX = 0;
+                    cup2.rotateX = 0;
+                    
+                    await delay(prepareDelay);
+                    
+                    // 第四步：放下杯子
+                    cup1.lift = 0;
+                    cup2.lift = 0;
+                    
+                    await delay(dropDelay);
+                    
+                    // 第五步：恢复到原位
                     cup1.offsetX = 0;
                     cup2.offsetX = 0;
                     
+                    // 交换杯子的球和ID
                     const tempHasBall = cup1.hasBall;
                     cup1.hasBall = cup2.hasBall;
                     cup2.hasBall = tempHasBall;
@@ -4437,11 +5201,17 @@
                     cup1.id = cup2.id;
                     cup2.id = tempId;
                     
-                    const otherCupImage = cups.value.find((c, i) => i !== pos1 && i !== pos2)?.image;
-                    const newImage1 = getUniqueRandomImage([otherCupImage]);
-                    const newImage2 = getUniqueRandomImage([otherCupImage, newImage1]);
-                    cup1.image = newImage1;
-                    cup2.image = newImage2;
+                    // 根据当前模式决定是否更换杯子图案
+                    if (isPatternChangeMode.value) {
+                        // 图案变化模式：为所有三个杯子选择一个新的相同图案
+                        const newImage = cupImages[Math.floor(Math.random() * cupImages.length)];
+                        cups.value.forEach(cup => {
+                            cup.image = newImage;
+                        });
+                    }
+                    // 图案不变模式：保持杯子图案不变
+                    
+                    await delay(finalDelay);
                     
                     cup1.shuffling = false;
                     cup2.shuffling = false;
@@ -4490,7 +5260,9 @@
                         maxStreak.value = currentStreak.value;
                     }
                     
-                    const winAmount = currentBet.value * getShuffleCount();
+                    // 根据当前模式计算收益倍数
+                    const multiplier = isPatternChangeMode.value ? 2 : 1;
+                    const winAmount = currentBet.value * getShuffleCount() * multiplier;
                     starStones.value += winAmount;
                     
                     playWinSound();
@@ -4755,6 +5527,11 @@
                             showContact.value = false;
                         }
                     });
+                    
+                    // 初始化时为激活状态的按钮添加随机扫光效果
+                    setTimeout(() => {
+                        addRandomGlowToActiveButtons();
+                    }, 500);
                 });
 
                 onUnmounted(() => {
@@ -4852,7 +5629,20 @@
                     repayLoan,
                     confirmBet,
                     toggleStampPanel,
-                    showStamp
+                    showStamp,
+                    isPatternChangeMode,
+                    togglePatternChangeMode,
+                    isModeToggling,
+                    // 商店相关
+                    showShopPanel,
+                    shopItems,
+                    ownedItems,
+                    placedItems,
+                    toggleShopPanel,
+                    buyItem,
+                    startDrag,
+                    onDrag,
+                    endDrag
                 };
             }
         }).mount('#app');
