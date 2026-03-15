@@ -1,17 +1,36 @@
-﻿<!DOCTYPE html>
+﻿﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>抓KSM</title>
     <link rel="icon" type="image/png" href="assets/objects/stamp_001020.png">
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* 基础样式重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* 根字体大小设置，为rem单位提供基础 */
+        html {
+            font-size: 16px;
+        }
+
+        /* 响应式根字体大小 */
+        @media (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 12px;
+            }
         }
 
         body {
@@ -20,6 +39,13 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             overflow: hidden;
             position: relative;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            body {
+                overflow: auto;
+            }
         }
 
         .background-layer {
@@ -143,14 +169,14 @@
 
         .game-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
             animation: slideDown 0.8s ease-out;
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-50px);
+                transform: translateY(-3rem);
             }
             to {
                 opacity: 1;
@@ -159,27 +185,42 @@
         }
 
         .game-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 60px rgba(240, 147, 251, 0.5);
-            letter-spacing: 5px;
-            margin-bottom: 15px;
+            text-shadow: 0 0 4rem rgba(240, 147, 251, 0.5);
+            letter-spacing: 0.3rem;
+            margin-bottom: 1rem;
             cursor: default;
             transition: all 0.3s ease;
         }
 
-        .game-title:hover {
+        .game-title:hover, .game-title:active {
             transform: scale(1.05);
-            letter-spacing: 8px;
+            letter-spacing: 0.5rem;
+        }
+
+        /* 响应式标题大小 */
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2rem;
+                letter-spacing: 0.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 1.8rem;
+                letter-spacing: 0.1rem;
+            }
         }
 
         .score-board {
             display: flex;
-            gap: 30px;
+            gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -187,33 +228,48 @@
         .score-item {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 15px 30px;
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0.5rem 2rem rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
             cursor: default;
         }
 
         .score-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-0.3rem);
             box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.4),
+                0 1rem 2.5rem rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .score-label {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 5px;
+            margin-bottom: 0.3rem;
         }
 
         .score-value {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #fff;
+        }
+
+        /* 响应式分数面板 */
+        @media (max-width: 480px) {
+            .score-board {
+                gap: 1rem;
+            }
+            
+            .score-item {
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .score-value {
+                font-size: 1.2rem;
+            }
         }
 
         .score-value.win {
@@ -227,32 +283,49 @@
         .game-container {
             position: relative;
             width: 100%;
-            max-width: 900px;
-            margin: 20px 0;
+            max-width: 56.25rem;
+            margin: 1.25rem 0;
         }
 
         .game-table {
             position: relative;
             width: 100%;
-            max-width: 950px;
-            height: 280px;
-            margin: 20px auto 0;
+            max-width: 59.375rem;
+            height: 17.5rem;
+            margin: 1.25rem auto 0;
             background: linear-gradient(180deg, 
                 #ffb6c1 0%, 
                 #ff91a4 30%,
                 #ff7f9a 60%,
                 #ff6b8a 100%);
-            border-radius: 50px 50px 60px 60px;
+            border-radius: 3.125rem 3.125rem 3.75rem 3.75rem;
             box-shadow: 
-                0 15px 40px rgba(255, 107, 138, 0.4),
-                0 5px 20px rgba(0, 0, 0, 0.2),
-                inset 0 2px 0 rgba(255, 255, 255, 0.4),
-                inset 0 -10px 30px rgba(0, 0, 0, 0.1);
+                0 0.9375rem 2.5rem rgba(255, 107, 138, 0.4),
+                0 0.3125rem 1.25rem rgba(0, 0, 0, 0.2),
+                inset 0 0.125rem 0 rgba(255, 255, 255, 0.4),
+                inset 0 -0.625rem 1.875rem rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 35px 30px 35px;
+            padding: 2.1875rem 1.875rem 2.1875rem;
             overflow: visible;
+        }
+
+        /* 响应式游戏桌台 */
+        @media (max-width: 768px) {
+            .game-table {
+                height: 14rem;
+                padding: 1.5rem 1.25rem 1.5rem;
+                border-radius: 2.5rem 2.5rem 3rem 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-table {
+                height: 12rem;
+                padding: 1.25rem 1rem 1.25rem;
+                border-radius: 2rem 2rem 2.5rem 2.5rem;
+            }
         }
 
         .game-table::before {
@@ -285,38 +358,38 @@
 
         .cups-container {
             display: flex;
-            gap: 50px;
+            gap: 3rem;
             justify-content: center;
             align-items: flex-end;
             position: relative;
             z-index: 2;
-            margin-bottom: 5px;
+            margin-bottom: 0.3rem;
         }
 
         .cup-wrapper {
             position: relative;
             cursor: pointer;
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            perspective: 1000px;
+            perspective: 62.5rem;
             --offset-x: 0px;
             --scale: 1;
             transform: translateX(var(--offset-x)) scale(var(--scale));
         }
 
-        .cup-wrapper:hover {
+        .cup-wrapper:hover, .cup-wrapper:active {
             --scale: 1.15;
             z-index: 10;
         }
 
-        .cup-wrapper:hover .cup {
-            transform: translateY(-15px);
+        .cup-wrapper:hover .cup, .cup-wrapper:active .cup {
+            transform: translateY(-1rem);
         }
 
-        .cup-wrapper:hover .cup-img {
-            filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5));
+        .cup-wrapper:hover .cup-img, .cup-wrapper:active .cup-img {
+            filter: drop-shadow(0 1.5rem 3rem rgba(0, 0, 0, 0.5));
         }
 
-        .cup-wrapper:hover .cup-shadow {
+        .cup-wrapper:hover .cup-shadow, .cup-wrapper:active .cup-shadow {
             transform: scale(1.8);
             opacity: 0.1;
         }
@@ -334,14 +407,14 @@
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-25px);
+                transform: translateY(-1.5rem);
             }
         }
 
         .cup {
             position: relative;
-            width: 140px;
-            height: 180px;
+            width: 8.75rem;
+            height: 11.25rem;
             z-index: 3;
             transition: transform 0.1s ease-out;
             transform-style: preserve-3d;
@@ -352,7 +425,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 0.6rem 1.5rem rgba(0, 0, 0, 0.3));
             position: relative;
             z-index: 3;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -360,11 +433,11 @@
 
         .cup-shadow {
             position: absolute;
-            bottom: -10px;
+            bottom: -0.6rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 110px;
-            height: 22px;
+            width: 6.875rem;
+            height: 1.375rem;
             background: radial-gradient(ellipse, 
                 rgba(255, 107, 138, 0.3) 0%, 
                 transparent 70%);
@@ -375,14 +448,47 @@
 
         .ball {
             position: absolute;
-            bottom: 5px;
+            bottom: 0.3rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 28px;
-            height: 28px;
+            width: 1.75rem;
+            height: 1.75rem;
             z-index: 1;
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
+        }
+
+        /* 响应式杯子和球 */
+        @media (max-width: 768px) {
+            .cups-container {
+                gap: 2rem;
+            }
+            
+            .cup {
+                width: 7rem;
+                height: 9rem;
+            }
+            
+            .ball {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cups-container {
+                gap: 1.5rem;
+            }
+            
+            .cup {
+                width: 5.5rem;
+                height: 7rem;
+            }
+            
+            .ball {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
         }
 
         .ball-img {
@@ -484,6 +590,295 @@
             }
         }
 
+        /* 竖版适配 */
+        @media (max-aspect-ratio: 1/1), (max-width: 768px) {
+            body {
+                overflow: auto;
+            }
+
+            #app {
+                padding: 10px;
+                justify-content: flex-start;
+                min-height: 100vh;
+            }
+
+            .game-header {
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+
+            .game-title {
+                font-size: 2rem;
+                letter-spacing: 3px;
+            }
+
+            .score-board {
+                gap: 15px;
+                margin-bottom: 10px;
+            }
+
+            .score-item {
+                padding: 10px 20px;
+            }
+
+            .score-value {
+                font-size: 1.4rem;
+            }
+
+            .game-container {
+                max-width: 100%;
+                margin: 10px 0;
+            }
+
+            .game-table {
+                height: 200px;
+                padding: 25px 20px 25px;
+            }
+
+            .cups-container {
+                gap: 30px;
+            }
+
+            .cup {
+                width: 100px;
+                height: 130px;
+            }
+
+            .cup-shadow {
+                width: 80px;
+                height: 16px;
+            }
+
+            .ball {
+                width: 20px;
+                height: 20px;
+            }
+
+            .controls {
+                display: flex;
+                gap: 15px;
+                margin-top: 20px;
+                margin-bottom: 100px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+
+            .difficulty-selector {
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .difficulty-btn {
+                padding: 8px 16px;
+                font-size: 0.75rem;
+                min-width: 80px;
+            }
+
+            .star-stone-display {
+                top: 10px;
+                left: 10px;
+                padding: 10px 20px;
+                gap: 10px;
+            }
+
+            .star-stone-value {
+                font-size: 1.2rem;
+            }
+
+            .bank-btn {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+
+            .contact-drawer {
+                top: 100px;
+                left: 10px;
+            }
+
+            /* 移动设备没有hover事件，保持抽屉可见 */
+
+            .contact-toggle {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+
+            .contact-content {
+                max-width: 200px;
+                padding: 15px;
+            }
+
+            .contact-content h4 {
+                font-size: 0.9rem;
+            }
+
+            .contact-content p {
+                font-size: 0.75rem;
+            }
+
+            .settings-panel {
+                top: 10px;
+                right: 10px;
+                z-index: 9999;
+            }
+
+            .settings-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                z-index: 9999;
+            }
+
+            .settings-dropdown {
+                min-width: 200px;
+                top: 55px;
+                right: -10px;
+                z-index: 9999;
+            }
+
+            .music-player {
+                z-index: 100;
+            }
+
+            .stamp-panel {
+                bottom: 10px;
+                left: 10px;
+                z-index: 100;
+            }
+
+            .stamp-toggle-btn {
+                width: 50px;
+                height: 50px;
+            }
+
+            .stamp-btn-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .music-player {
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .music-player {
+                z-index: 1000;
+            }
+
+            .music-mini {
+                gap: 6px;
+                padding: 6px 12px;
+                max-width: 80vw;
+                z-index: 1000;
+                cursor: pointer;
+            }
+
+            .music-mini-info {
+                min-width: 150px;
+                flex: 1;
+            }
+
+            .music-mini-title {
+                font-size: 0.7rem;
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .music-mini-artist {
+                font-size: 0.55rem;
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .music-mini-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+            }
+
+            .stamp-container {
+                max-width: 300px;
+                padding: 15px;
+            }
+
+            .stamp-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .stamp-item {
+                width: 60px;
+                height: 60px;
+            }
+
+            .message-box {
+                padding: 40px 50px;
+                min-width: 280px;
+            }
+
+            .message-text {
+                font-size: 1.5rem;
+            }
+
+            .bet-dialog, .bank-dialog {
+                padding: 30px 35px;
+                min-width: 280px;
+            }
+
+            .bet-input {
+                width: 90px;
+                padding: 10px 12px;
+                font-size: 1.1rem;
+            }
+
+            .bet-quick-btns {
+                gap: 8px;
+            }
+
+            .bet-quick-btn {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
+            .loan-option {
+                padding: 12px 16px;
+                font-size: 0.8rem;
+            }
+
+            .music-panel {
+                width: 90vw;
+                max-width: 280px;
+                padding: 20px;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                transform-origin: bottom center;
+            }
+
+            .music-cover {
+                width: 150px;
+                height: 150px;
+            }
+
+            .music-title {
+                font-size: 1.1rem;
+            }
+
+            .music-artist {
+                font-size: 0.8rem;
+            }
+        }
+
         .cup.correct {
             animation: correctBounce 0.6s ease-in-out;
         }
@@ -527,24 +922,29 @@
 
         .controls {
             display: flex;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 1.25rem;
+            margin-top: 1.875rem;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .btn {
-            padding: 15px 40px;
+            padding: 0.9375rem 2.5rem;
             font-size: 1.1rem;
             font-weight: 600;
             border: none;
-            border-radius: 50px;
+            border-radius: 3.125rem;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.125rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* 移动端触摸友好 - 最小高度44px */
+            min-height: 2.75rem;
         }
 
         .btn::before {
@@ -569,14 +969,14 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             box-shadow: 
-                0 10px 30px rgba(102, 126, 234, 0.4),
+                0 0.625rem 1.875rem rgba(102, 126, 234, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
+            transform: translateY(-0.2rem);
             box-shadow: 
-                0 15px 40px rgba(102, 126, 234, 0.5),
+                0 0.9375rem 2.5rem rgba(102, 126, 234, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
@@ -589,12 +989,12 @@
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.2);
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
+            transform: translateY(-0.2rem);
             border-color: rgba(255, 255, 255, 0.5);
         }
 
@@ -604,31 +1004,58 @@
             transform: none !important;
         }
 
+        /* 响应式按钮 */
+        @media (max-width: 480px) {
+            .btn {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+                min-height: 2.75rem;
+            }
+        }
+
         .difficulty-selector {
             display: flex;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
         }
 
         .difficulty-btn {
-            padding: 10px 20px;
+            padding: 0.625rem 1.25rem;
             font-size: 0.85rem;
             font-weight: 600;
             border: 2px solid rgba(255, 255, 255, 0.3);
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            border-radius: 25px;
+            border-radius: 1.5625rem;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
-            min-width: 90px;
+            min-width: 5.625rem;
             text-align: center;
+            min-height: 2.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .difficulty-btn:hover {
+        /* 响应式难度选择器 */
+        @media (max-width: 480px) {
+            .difficulty-selector {
+                gap: 0.5rem;
+            }
+            
+            .difficulty-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+                min-width: 4.5rem;
+                min-height: 2.75rem;
+            }
+        }
+
+        .difficulty-btn:hover, .difficulty-btn:active {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.05);
         }
@@ -772,6 +1199,10 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transform: scale(0.8);
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
         }
 
         .message-overlay.show .message-box {
@@ -828,18 +1259,18 @@
 
         .star-stone-display {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 1.25rem;
+            left: 1.25rem;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 15px 25px;
+            border-radius: 1.25rem;
+            padding: 0.9375rem 1.5625rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
             z-index: 50;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 0.9375rem;
         }
 
         .star-stone-icon {
@@ -860,7 +1291,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            text-shadow: 0 0 0.625rem rgba(255, 215, 0, 0.5);
         }
 
         .star-stone-value.loan {
@@ -869,19 +1300,40 @@
         }
 
         .bank-btn {
-            padding: 8px 15px;
+            padding: 0.5rem 0.9375rem;
             font-size: 0.8rem;
             font-weight: 600;
             border: none;
-            border-radius: 15px;
+            border-radius: 0.9375rem;
             cursor: pointer;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             transition: all 0.3s ease;
+            min-height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .bank-btn:hover {
             transform: scale(1.05);
+        }
+
+        /* 响应式星石显示 */
+        @media (max-width: 480px) {
+            .star-stone-display {
+                padding: 0.75rem 1.25rem;
+                gap: 0.75rem;
+            }
+            
+            .star-stone-value {
+                font-size: 1.2rem;
+            }
+            
+            .bank-btn {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.7rem;
+            }
         }
 
         .bet-dialog, .bank-dialog {
@@ -1069,7 +1521,7 @@
             justify-content: center;
         }
 
-        .stamp-toggle-btn:hover {
+        .stamp-toggle-btn:hover, .stamp-toggle-btn:active {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
@@ -1093,7 +1545,7 @@
             position: fixed;
             bottom: 20px;
             right: 90px;
-            z-index: 50;
+            z-index: 1000;
         }
 
         .music-mini {
@@ -1108,9 +1560,11 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-width: 250px;
+            max-width: 100%;
         }
 
-        .music-mini:hover {
+        .music-mini:hover, .music-mini:active {
             background: rgba(40, 40, 60, 0.95);
             transform: scale(1.02);
         }
@@ -1128,7 +1582,8 @@
         .music-mini-info {
             display: flex;
             flex-direction: column;
-            min-width: 120px;
+            min-width: 150px;
+            flex: 1;
         }
 
         .music-mini-title {
@@ -1138,7 +1593,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 150px;
+            max-width: 200px;
         }
 
         .music-mini-artist {
@@ -1167,7 +1622,7 @@
             transition: all 0.3s ease;
         }
 
-        .music-mini-btn:hover {
+        .music-mini-btn:hover, .music-mini-btn:active {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
@@ -1187,7 +1642,8 @@
         .music-panel {
             position: absolute;
             bottom: 60px;
-            right: 0;
+            left: 50%;
+            right: auto;
             background: rgba(30, 30, 50, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 25px;
@@ -1196,16 +1652,17 @@
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
             opacity: 0;
             visibility: hidden;
-            transform: translateY(20px) scale(0.9);
+            transform: translateX(-50%) translateY(20px) scale(0.9);
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: bottom right;
+            transform-origin: bottom center;
             width: 320px;
+            z-index: 1100;
         }
 
         .music-panel.show {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0) scale(1);
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
         .music-header {
@@ -1358,7 +1815,7 @@
             overflow: hidden;
         }
 
-        .music-control-btn:hover {
+        .music-control-btn:hover, .music-control-btn:active {
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
@@ -1961,6 +2418,158 @@
             transition: opacity 0.3s ease;
         }
 
+        .contact-drawer {
+            position: fixed;
+            top: 120px;
+            left: -80px;
+            z-index: 1000;
+            transition: left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .contact-drawer:hover {
+            left: 20px;
+        }
+
+        .contact-toggle {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(15px);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .contact-toggle:hover::before {
+            left: 100%;
+        }
+
+        .contact-toggle:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 12px;
+            background: linear-gradient(135deg, rgba(30, 30, 50, 0.95) 0%, rgba(20, 20, 40, 0.95) 100%);
+            backdrop-filter: blur(25px);
+            border-radius: 18px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-15px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .contact-content.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .contact-content h4 {
+            color: white;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff7675 0%, #fd79a8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .contact-info-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .contact-info-icon {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-info-text {
+            flex: 1;
+        }
+
+        .contact-link {
+            color: #ff7675;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff7675, #fd79a8);
+            transition: width 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #fd79a8;
+        }
+
+        .contact-link:hover::after {
+            width: 100%;
+        }
+
         .instructions {
             position: fixed;
             bottom: 20px;
@@ -2081,6 +2690,36 @@
                 <span class="star-stone-value loan" v-if="bankLoan > 0">欠款: {{ bankLoan }}</span>
             </div>
             <button class="bank-btn" @click="openBank" @mouseenter="playHoverSound">🏦 银行</button>
+        </div>
+
+        <div class="contact-drawer" @mouseleave="isMobile ? false : (showContact = false)">
+            <button class="contact-toggle" @click="showContact = !showContact" @mouseenter="showContact = showContact">
+                📞 联系作者
+            </button>
+            <div class="contact-content" :class="{ show: showContact }" @mouseenter="showContact = true" @click.stop="showContact = true">
+                <h4>联系作者</h4>
+                <p>如果你有任何问题或建议，欢迎联系作者：</p>
+                <div class="contact-info">
+                    <div class="contact-info-item">
+                        <span class="contact-info-icon">📧</span>
+                        <span class="contact-info-text">
+                            <a href="mailto:3040791779@qq.com" class="contact-link">Email: 3040791779@qq.com</a>
+                        </span>
+                    </div>
+                    <div class="contact-info-item">
+                        <span class="contact-info-icon">💬</span>
+                        <span class="contact-info-text">
+                            <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=3040791779" class="contact-link">QQ: 3040791779</a>
+                        </span>
+                    </div>
+                    <div class="contact-info-item">
+                        <span class="contact-info-icon">🌐</span>
+                        <span class="contact-info-text">
+                            <a href="https://github.com/JohnvenTom" target="_blank" class="contact-link">GitHub: JohnvenTom</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="settings-panel">
@@ -2334,8 +2973,8 @@
             </button>
         </div>
 
-        <div class="instructions">
-            <h4>游戏说明</h4>
+        <div class="instructions" v-if="showInstructions" @click="showInstructions = false">
+            <h4>游戏说明 (点击隐藏)</h4>
             <p>点击"开始游戏"后，观察户山香澄躲在哪里，选择你认为藏有户山香澄的地方。难度越高，星石越多！</p>
         </div>
 
@@ -2530,6 +3169,9 @@
                 ];
 
                 const showStampPanel = ref(false);
+                const showInstructions = ref(true);
+                const showContact = ref(false);
+                const isMobile = ref(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
                 const randomStampIcon = ref(stamps[Math.floor(Math.random() * stamps.length)]);
 
@@ -3774,12 +4416,15 @@
                     cup1.shuffling = true;
                     cup2.shuffling = true;
                     
-                    const distance = (pos2 - pos1) * 200;
+                    // 动态计算交换距离，避免在竖屏模式下超出屏幕
+                    // 根据杯子宽度和间距计算合适的距离
+                    const isMobile = window.innerWidth <= 768;
+                    const distance = (pos2 - pos1) * (isMobile ? 150 : 200);
                     
                     cup1.offsetX = distance;
                     cup2.offsetX = -distance;
                     
-                    await delay(500);
+                    await delay(700);
                     
                     cup1.offsetX = 0;
                     cup2.offsetX = 0;
@@ -4102,6 +4747,14 @@
                     
                     document.addEventListener('click', unlockAudio, { once: true });
                     document.addEventListener('keydown', unlockAudio, { once: true });
+                    
+                    // 添加点击外部关闭联系作者抽屉的功能
+                    document.addEventListener('click', (e) => {
+                        const contactDrawer = document.querySelector('.contact-drawer');
+                        if (contactDrawer && !contactDrawer.contains(e.target) && showContact.value) {
+                            showContact.value = false;
+                        }
+                    });
                 });
 
                 onUnmounted(() => {
@@ -4116,6 +4769,9 @@
                     ballImage,
                     stamps,
                     showStampPanel,
+                    showInstructions,
+                    showContact,
+                    isMobile,
                     randomStampIcon,
                     showMusicPanel,
                     showPlaylist,
