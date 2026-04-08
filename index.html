@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -5514,6 +5514,57 @@
                 };
 
                 onMounted(() => {
+                    /**
+                     * 预加载所有杯子图片
+                     * @description 使用 JavaScript Image 对象预加载图片，确保图片在需要时立即可用
+                     * @returns {void}
+                     */
+                    const preloadCupImages = () => {
+                        cupImages.forEach(src => {
+                            const img = new Image();
+                            img.src = src;
+                        });
+                    };
+                    
+                    /**
+                     * 预加载所有球图片
+                     * @returns {void}
+                     */
+                    const preloadBallImages = () => {
+                        ballImages.forEach(src => {
+                            const img = new Image();
+                            img.src = src;
+                        });
+                    };
+                    
+                    /**
+                     * 预加载所有表情包图片
+                     * @returns {void}
+                     */
+                    const preloadStampImages = () => {
+                        stamps.forEach(src => {
+                            const img = new Image();
+                            img.src = src;
+                        });
+                    };
+                    
+                    /**
+                     * 预加载所有商店物品图片
+                     * @returns {void}
+                     */
+                    const preloadShopImages = () => {
+                        shopItems.value.forEach(src => {
+                            const img = new Image();
+                            img.src = src;
+                        });
+                    };
+                    
+                    // 执行预加载
+                    preloadCupImages();
+                    preloadBallImages();
+                    preloadStampImages();
+                    preloadShopImages();
+                    
                     document.addEventListener('mousemove', handleMouseMove);
                     document.addEventListener('click', handleClick);
                     
